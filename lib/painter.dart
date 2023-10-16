@@ -11,8 +11,11 @@ import 'package:flutter/material.dart' hide Image;
 class Painter extends StatefulWidget {
   final PainterController painterController;
 
+  // disable touching
+  final bool enabled;
+
   /// Creates an instance of this widget that operates on top of the supplied [PainterController].
-  Painter(this.painterController)
+  Painter(this.painterController, {this.enabled = true})
       : super(key: ValueKey<PainterController>(painterController));
 
   @override
@@ -46,9 +49,9 @@ class _PainterState extends State<Painter> {
     if (!_finished) {
       child = GestureDetector(
         child: child,
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
+        onPanStart: widget.enabled ? _onPanStart : null,
+        onPanUpdate: widget.enabled ? _onPanUpdate : null,
+        onPanEnd: widget.enabled ? _onPanEnd : null,
       );
     }
     return SizedBox(
